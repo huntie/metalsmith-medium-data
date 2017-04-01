@@ -1,0 +1,21 @@
+{
+  "name": "metalsmith-medium-data",
+  "version": "1.0.0",
+  "author": "Alex Hunt <hello@alexhunt.io>",
+  "description": "Metalsmith plugin to fetch latest user post data from medium.com",
+  "main": "src/index.js",
+  "homepage": "https://github.com/huntie/metalsmith-medium-data#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huntie/metalsmith-medium-data"
+  },
+  "keywords": [
+    "metalsmith",
+    "medium",
+    "api"
+  ],
+  "dependencies": {
+    "node-fetch": "^1.6.0"
+  }
+}
