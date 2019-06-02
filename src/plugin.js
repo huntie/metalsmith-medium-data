@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const DEFAULT_OPTIONS = {
+export const DEFAULT_OPTIONS = {
   key: 'medium',
   limit: 10
 };
