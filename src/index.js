@@ -34,7 +34,7 @@ module.exports = function (options) {
 
                 done();
             })
-            .catch(error => {
+            .catch(() => {
                 done(new Error('Failed to fetch data from the Medium API.'));
             });
     };
