@@ -1,41 +1,37 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-const defaults = {
-    key: 'medium',
-    limit: 10
-};
+export default function plugin({ username, key = 'medium', limit = 10 }) {
+  return async (files, metalsmith, done) => {
+    if (!username) {
+      done(new Error('A Medium username must be provided.'));
+    }
 
-module.exports = function (options) {
-    options = Object.assign(defaults, options);
+    const metadata = metalsmith.metadata();
 
-    return (files, metalsmith, done) => {
-        if (!('username' in options)) {
-            done(new Error('A Medium username must be provided.'));
-        }
+    try {
+      const response = await fetch(
+        `https://medium.com/@${username}/latest`,
+        { headers: { Accept: 'application/json' } }
+      );
+      const { payload } = JSON.parse(
+        (await response.text()).replace(/^[^{]*/, '')
+      );
 
-        const metadata = metalsmith.metadata();
-        const headers = {
-            Accept: 'application/json'
-        };
-
-        fetch(`https://medium.com/@${options.username}/latest`, { headers })
-            .then(response => response.text())
-            .then(body => JSON.parse(body.replace(/^[^{]*/, '')))
-            .then(data => {
-                metadata[options.key] = {
-                    user: data.payload.user,
-                    posts: Object.keys(data.payload.references.Post)
-                        .slice(0, options.limit)
-                        .map(key => data.payload.references.Post[key])
-                        .map(post => Object.assign(post, {
-                            url: `https://medium.com/@${options.username}/${post.uniqueSlug}`
-                        }))
-                };
-
-                done();
+      metadata[key] = {
+        user: payload.user,
+        posts: Object.keys(payload.references.Post)
+          .slice(0, limit)
+          .map(key => payload.references.Post[key])
+          .map(post =>
+            Object.assign(post, {
+              url: `https://medium.com/@${username}/${post.uniqueSlug}`
             })
-            .catch(() => {
-                done(new Error('Failed to fetch data from the Medium API.'));
-            });
-    };
-};
+          )
+      };
+    } catch (e) {
+      done(new Error('Failed to fetch data from the Medium API.'));
+    }
+
+    done();
+  };
+}
