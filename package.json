@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "author": "Alex Hunt <hello@alexhunt.io>",
   "description": "Metalsmith plugin to fetch latest user post data from medium.com",
-  "main": "src/index.js",
   "homepage": "https://github.com/huntie/metalsmith-medium-data#readme",
   "license": "MIT",
   "repository": {
@@ -18,13 +17,19 @@
   "engines": {
     "node": ">=4.0.0"
   },
+  "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint src/"
+    "build": "babel src --out-dir dist",
+    "lint": "eslint src"
   },
   "dependencies": {
     "node-fetch": "^1.6.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "eslint": "^5.16.0"
   }
 }
