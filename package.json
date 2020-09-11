@@ -22,7 +22,7 @@
     "lint": "eslint src/"
   },
   "dependencies": {
-    "node-fetch": "^1.6.0"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0"
